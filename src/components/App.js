@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Redirect,
+  Link
 } from "react-router-dom";
 import Home from '../pages/Home';
 import Chat from '../pages/Chat';
@@ -13,6 +14,7 @@ import { auth } from '../services/firebase';
 
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
+import NavBar from './NavBar';
 
 
 class App extends Component {
@@ -43,6 +45,7 @@ class App extends Component {
   render() {
     return this.state.loading === true ? <h2>Loading...</h2> : (
       <Router>
+        <NavBar isLoggedIn={this.state.authenticated} />
         <Switch>
           <Route exact path="/" component={Home}></Route>
           <PrivateRoute path="/chat" authenticated={this.state.authenticated} component={Chat}></PrivateRoute>
