@@ -12,7 +12,7 @@ function PublicRoute({ component: Component, authenticated, ...rest }) {
       {...rest}
       render={(props) => authenticated === false
         ? <Component {...props} />
-        : <Redirect to='/chat' />}
+        : <Redirect to='/' />}
     />
   )
 }
