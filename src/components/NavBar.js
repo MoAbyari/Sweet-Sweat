@@ -13,7 +13,7 @@ render(){
     return (
       <nav className ="nav">
         <Link to="/">Home |</Link>
-        <Link to="/profile"> Profile |</Link>
+        <Link to="/Profile"> Profile |</Link>
         <Link to="/Chat"> Messages </Link>
         <button onClick={this.handleLogOut} > Logout </button>
       </nav>

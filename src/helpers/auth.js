@@ -17,3 +17,7 @@ export function signInWithGoogle() {
 export function signOut() {
   return auth().signOut();
 }
+
+export function getCurrentUser() {
+  return auth().currentUser;
+}
