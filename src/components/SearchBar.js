@@ -19,6 +19,14 @@ class SearchBar extends Component {
       snapshot.forEach((doc) => {
                // doc.data() is never undefined for query doc snapshots
                console.log(doc.id, " => ", doc.data());
+               const data = doc.data();
+               if (data.user) {
+                 data.user.get().then((user) => {
+                   console.log('>>>>>', user.data());
+                 });
+
+               }
+
            });
     })
   }

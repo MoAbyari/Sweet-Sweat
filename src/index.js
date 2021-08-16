@@ -5,6 +5,7 @@ import './index.css';
 import './App.css';
 
 import App from './components/App';
+import 'antd/dist/antd.css';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
