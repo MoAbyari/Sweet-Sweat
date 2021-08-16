@@ -15,7 +15,7 @@ class HomePageCard extends React.Component {
   componentDidMount(){
     this.fetchUserInfo()
   }
-  
+
   fetchUserInfo = () => {
     const userActivityInfo = this.props.activity.user_id
     const nameAndAge = fsDb
@@ -28,21 +28,27 @@ class HomePageCard extends React.Component {
 
   renderCard = () => {
     const activity = this.props.activity
-
+    console.log(this.state.user);
     return(
       <Card hoverable style={{ width: 400 }}
         title= {
-          activity.location.street_number +
-          ', ' +
-          activity.location.street +
-          ', ' +
-          activity.location.suburb
+          this.state.user.name +
+          ' | ' +
+          moment(this.state.user?.DOB?.toDate()).toNow('Y')
         }
         cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />} >
-        <Meta title={activity.title} description="hi" />
-        <p>{moment(activity.time.toDate()).format('MMMM Do YYYY')} </p>
-        <p> {this.state.user.name}</p>
-        <p> {moment(this.state.user?.DOB?.toDate()).format('MMMM Do YYYY')}</p>
+        <Meta title={activity.title} description="" /> <br/>
+          <h5>
+            {
+              activity.location.street_number +
+              ', ' +
+              activity.location.street +
+              ', ' +
+              activity.location.suburb +
+              ' | '+
+              moment(activity.time.toDate()).format('MMMM Do YYYY')
+            }
+          </h5>
       </Card>
     )
   }
