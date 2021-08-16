@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { fsDb } from "../services/firebase"
 import { getCurrentUser } from '../helpers/auth';
+import moment from 'moment';
 
 
 import { Card } from 'antd';
@@ -23,23 +24,42 @@ class ActivityCard extends Component {
       .where('user_id', '==', user.uid)
       .get()
       .then((snapshots) => {
+        let activities = [];
         snapshots.forEach((activity) => {
-          // 3. actiivties == user_profiles to be loaded
-          console.log('>>>', activity.data());
+          activities.push(activity.data());
         });
+      this.setState({activities: activities});
+      });
+    }
+
+    renderActivities = () => {
+      const activities = this.state.activities;
+      return activities.map((activity, index) => {
+
+        return (
+          <div key={index} className="site-card-border-less-wrapper">
+            <Card
+              title={activity.title}
+              bordered={false} style={{ width: 600 }}>
+              <p>{activity.description}</p>
+              <p>
+                {
+                activity.location.street_number + ', '
+                + activity.location.street + ', '
+                + activity.location.suburb
+                }
+              </p>
+              <p>{moment(activity.time.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
+            </Card>
+          </div>
+        );
       });
     }
 
   render() {
     return (
       <div>
-        <div className="site-card-border-less-wrapper">
-          <Card title="Activity title" bordered={false} style={{ width: 300 }}>
-          <p>Card content</p>
-          <p>Card content</p>
-          <p>Card content</p>
-          </Card>
-        </div>
+        {this.renderActivities()}
       </div>
     );
   }
