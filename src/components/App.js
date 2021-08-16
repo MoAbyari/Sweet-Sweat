@@ -9,6 +9,7 @@ import {
 import Home from '../pages/Home';
 import Chat from '../pages/Chat';
 import Profile from '../pages/Profile';
+import PostActivity from '../pages/PostActivity';
 import Signup from '../pages/Signup';
 import Login from '../pages/Login';
 import { auth } from '../services/firebase';
@@ -57,6 +58,7 @@ class App extends Component {
           <Route exact path="/" component={Home}></Route>
           <PrivateRoute path="/chat" authenticated={this.state.authenticated} component={Chat}></PrivateRoute>
           <PrivateRoute path="/profile" authenticated={this.state.authenticated} component={Profile}></PrivateRoute>
+          <PrivateRoute path="/PostActivity" authenticated={this.state.authenticated} component={PostActivity}></PrivateRoute>
           <PublicRoute path="/signup" authenticated={this.state.authenticated} component={Signup}></PublicRoute>
           <PublicRoute path="/login" authenticated={this.state.authenticated} component={Login}></PublicRoute>
         </Switch>

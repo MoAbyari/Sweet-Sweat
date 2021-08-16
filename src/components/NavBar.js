@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from "react-router-dom";
 import { signOut } from '../helpers/auth';
+
 class NavBar extends Component{
 
   handleLogOut = () => {
@@ -8,7 +9,6 @@ class NavBar extends Component{
   }
 
 render(){
-
   if (this.props.isLoggedIn){
     return (
       <nav className ="nav">
