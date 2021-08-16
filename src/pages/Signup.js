@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { signup } from '../helpers/auth';
 import { signin, signInWithGoogle } from "../helpers/auth";
+import { fsDb } from "../services/firebase"
+import { getCurrentUser } from '../helpers/auth';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -27,6 +29,8 @@ class Signup extends React.Component {
     this.setState({ error: '' });
     try {
       await signup(this.state.email, this.state.password);
+      await fsDb.collection("user_profiles").doc().set({ name: '', user_id: getCurrentUser().uid});
+      await fsDb.collection("users").doc().set({ name: '', email: this.state.email, user_id: getCurrentUser().uid})
     } catch (error) {
       this.setState({ error: error.message });
     }
