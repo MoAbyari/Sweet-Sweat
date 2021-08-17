@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { fsDb } from "../services/firebase"
-import { getCurrentUser } from '../helpers/auth';
 import moment from 'moment';
 
 
@@ -17,11 +16,9 @@ class ActivityCard extends Component {
   }
 
   componentDidMount() {
-    // const userId = this.props.location.state.param.userId;
-    const user = getCurrentUser();
     fsDb
       .collection('activities')
-      .where('user_id', '==', user.uid)
+      .where('user_id', '==', this.props.userId) // userId is passed into Activitycard from parent, which in this case is profile or PublicProfile page
       .get()
       .then((snapshots) => {
         let activities = [];

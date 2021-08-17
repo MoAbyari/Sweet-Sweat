@@ -9,6 +9,7 @@ import {
 import Home from '../pages/Home';
 import Chat from '../pages/Chat';
 import Profile from '../pages/Profile';
+import PublicProfile from '../pages/PublicProfile';
 import PostActivity from '../pages/PostActivity';
 import Signup from '../pages/Signup';
 import Login from '../pages/Login';
@@ -56,8 +57,10 @@ class App extends Component {
       <div className="site-layout-content">
         <Switch>
           <Route exact path="/" component={Home}></Route>
-          <PrivateRoute path="/chat" authenticated={this.state.authenticated} component={Chat}></PrivateRoute>
+          <PrivateRoute path="/chat" authenticated={this.state.authenticated}
+          component={Chat}></PrivateRoute>
           <PrivateRoute path="/profile" authenticated={this.state.authenticated} component={Profile}></PrivateRoute>
+          <PrivateRoute path="/PublicProfile" authenticated={this.state.authenticated} component={PublicProfile}></PrivateRoute>
           <PrivateRoute path="/PostActivity" authenticated={this.state.authenticated} component={PostActivity}></PrivateRoute>
           <PublicRoute path="/signup" authenticated={this.state.authenticated} component={Signup}></PublicRoute>
           <PublicRoute path="/login" authenticated={this.state.authenticated} component={Login}></PublicRoute>
