@@ -9,8 +9,8 @@ class Profile extends Component {
   render () {
     return (
       <div>
-        <Link to="/PostActivity">New Activity</Link>
         <EditProfile />
+        <Link to="/PostActivity">New Activity</Link>
         <ActivityCard />
       </div>
     )
