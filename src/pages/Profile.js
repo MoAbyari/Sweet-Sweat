@@ -3,6 +3,8 @@ import {Link} from "react-router-dom";
 import ActivityCard from '../components/ActivityCard';
 import PostActivity from './PostActivity';
 import EditProfile from '../components/EditProfile';
+import { getCurrentUser } from '../helpers/auth';
+
 
 
 class Profile extends Component {
@@ -11,7 +13,7 @@ class Profile extends Component {
       <div>
         <EditProfile />
         <Link to="/PostActivity">New Activity</Link>
-        <ActivityCard />
+        <ActivityCard userId={ getCurrentUser().uid }/>
       </div>
     )
   }

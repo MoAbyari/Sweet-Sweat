@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import { fsDb } from "../services/firebase"
 import { Card } from 'antd';
 import moment from 'moment';
 const { Meta } = Card;
+
 
 
 
@@ -27,29 +29,37 @@ class HomePageCard extends React.Component {
   }
 
   renderCard = () => {
-    const activity = this.props.activity
-    console.log(this.state.user);
+    const activity = this.props.activity;
+    if(!this.state.user?.user_id) return null;
+    console.log('returning card');
     return(
-      <Card hoverable style={{ width: 400 }}
-        title= {
-          this.state.user.name +
-          ' | ' +
-          moment(this.state.user?.DOB?.toDate()).toNow('Y')
-        }
-        cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />} >
-        <Meta title={activity.title} description="" /> <br/>
-          <h5>
-            {
-              activity.location.street_number +
-              ', ' +
-              activity.location.street +
-              ', ' +
-              activity.location.suburb +
-              ' | '+
-              moment(activity.time.toDate()).format('MMMM Do YYYY')
-            }
-          </h5>
-      </Card>
+      <Link
+        to={{
+          pathname: "/PublicProfile",
+          state: { userId: this.state.user?.user_id }
+        }}
+      >
+        <Card hoverable style={{ width: 400 }}
+          title= {
+            this.state.user.name +
+            ' | ' +
+            moment(this.state.user?.DOB?.toDate()).toNow('Y')
+          }
+          cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />} >
+          <Meta title={activity.title} description="" /> <br/>
+            <h5>
+              {
+                activity.location.street_number +
+                ', ' +
+                activity.location.street +
+                ', ' +
+                activity.location.suburb +
+                ' | '+
+                moment(activity.time.toDate()).format('MMMM Do YYYY')
+              }
+            </h5>
+        </Card>
+      </Link>
     )
   }
 
