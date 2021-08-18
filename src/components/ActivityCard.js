@@ -7,6 +7,7 @@ import { getCurrentUser } from '../helpers/auth';
 import { Card } from 'antd';
 import './ActivityCard.css';
 import EditActivity from './EditActivity';
+import DeleteActivity from './DeleteActivity';
 
 
 class ActivityCard extends Component {
@@ -40,6 +41,7 @@ class ActivityCard extends Component {
           return (
             <div key={index} className="site-card-border-less-wrapper">
               <EditActivity documentId={activity.docId} documentInfo={activity} />
+              <DeleteActivity documentId={activity.docId} />
               <Card
                 title={activity.title}
                 bordered={false} style={{ width: 600 }}>
