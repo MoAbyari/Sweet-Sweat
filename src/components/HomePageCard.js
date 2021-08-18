@@ -23,7 +23,7 @@ class HomePageCard extends React.Component {
     const nameAndAge = fsDb
       .collection("user_profiles")
       .where("user_id", "==", userActivityInfo).get().then((info) => {
-        this.setState({user: info.docs[0].data()});
+        this.setState({user: info.docs[0]? info.docs[0].data() : null });
       });
 
   }
@@ -45,7 +45,7 @@ class HomePageCard extends React.Component {
             ' | ' +
             moment(this.state.user?.DOB?.toDate()).toNow('Y')
           }
-          cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />} >
+          cover={<img alt="example" src={this.state.user?.userImage}/>} >
           <Meta title={activity.title} description="" /> <br/>
             <h5>
               {

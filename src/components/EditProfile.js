@@ -1,10 +1,16 @@
+import { Upload, message, Button } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import React, {Component} from 'react';
-import { fsDb } from "../services/firebase"
+import { fsDb, storage} from "../services/firebase"
 import { getCurrentUser } from '../helpers/auth';
 import moment from 'moment';
+import { Card, Avatar  } from 'antd';
+const { Meta } = Card;
 
+/////////////////////////// Ant Design//////////  file upload /////////////////
 
 class EditProfile extends Component {
+
   constructor(){
     super();
     this.state = {
@@ -12,27 +18,67 @@ class EditProfile extends Component {
       name: '',
       DOB:'',
       aboutme:'',
-      user_profile:[]
+      photo: '',
+      userImage: ''
     }
 
     this._renderName = this._renderName.bind(this);
     this._renderDOB = this._renderDOB.bind(this);
     this._renderAboutMe = this._renderAboutMe.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this);
+    this.uploadFile = this.uploadFile.bind(this);
+///////////////////////////// Ant Upload file action ///////////////////////////
+    this.uploadProps = {
+      name: 'file',
+      action: this.uploadFile,
+      headers: {
+        authorization: 'authorization-text',
+      },
+      onChange(info) {
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
   }
-///////////////////////////  Fetching existing User Info ///////////////////////
+// ///////////////////////////  Fetching existing User Info ///////////////////////
   componentDidMount(){
-        fsDb.collection('user_profiles')
-        .where('user_id', '==', getCurrentUser().uid)
-        .get()
-        .then((snapshots) => {
-          let user_profile = [];
-          snapshots.forEach((f) =>{
-            user_profile.push(f.data());
-          });
-        this.setState({user_profile: user_profile});
+      this.fetchUserInfo();
+  }
+
+  fetchUserInfo = () => {
+    fsDb.collection('user_profiles')
+    .where('user_id', '==', getCurrentUser().uid)
+    .get()
+    .then((snapshots) => {
+      snapshots.forEach((f) =>{
+      this.setState({
+        name: (f.data()).name,
+        aboutme: (f.data()).aboutme,
+        DOB: (f.data()).DOB,
+        userImage: (f.data()).userImage
         });
-      }
+      });
+    });
+  };
+//////////////////////////////////   Upload File  //////////////////////////////
+  uploadFile = (file) => {
+    const storageRef = storage.ref()
+    const fileRef = storageRef.child(file.name)
+    return fileRef.put(file).then(() =>{
+      fsDb.collection("user_profiles").doc()
+      .set({ photo: `gs://sweet-sweat.appspot.com/${file.name}`},{merge:true}).then((firebaseImage)=>{
+        fileRef.getDownloadURL().then((url) => {
+          this.setState({userImage: url })
+        })
+      })
+    })
+  }
 ///////////////////////  Set and update user info to Db ////////////////////////
 
   saveProfile(data){
@@ -42,8 +88,9 @@ class EditProfile extends Component {
     .then((snapshots) => {
       snapshots.forEach( (userProfile) => {
         fsDb.collection("user_profiles").doc(userProfile.id)
-        .set({ name: data.name, DOB: data.DOB, aboutme: data.aboutme},{merge:true})
-      })
+        .set({ name: data.name, DOB: data.DOB, aboutme: data.aboutme, userImage:data.userImage},{merge:true})
+      });
+      this.fetchUserInfo();
     })
   }
 
@@ -69,18 +116,21 @@ class EditProfile extends Component {
   showForm(){
     return(
       <div>
-      <form onSubmit={this._handleSubmit}>
-        Name:<input type="text" onChange={this._renderName} value={this.state.name} />
-        DOB:<input type="date" onChange={this._renderDOB} />
-        Aboutme:<textarea type="text" onChange={this._renderAboutMe} />
-        <br/>
-        <input type="submit" value= "Save"/>
-      </form>
-      <input type="submit" value= "Cancel" onClick={() => this.setState({showForm: false}) }/>
+        <form onSubmit={this._handleSubmit}>
+          Name:<input type="text" onChange={this._renderName} value = {this.state.name} required/>
+          DOB:<input type="date" onChange={this._renderDOB} required/>
+          Aboutme:<textarea type="text" onChange={this._renderAboutMe} value={this.state.aboutme} required/>
+          <Upload {...this.uploadProps}>
+          <Button icon={<UploadOutlined />}>Upload Profile Photo</Button>
+          </Upload>
+          <br/>
+          <input type="submit" value= "Save"/>
+        </form>
+        <input type="submit" value= "Cancel" onClick={() => this.setState({showForm: false}) }/>
       </div>
     )
   }
-/////////////////////////////////   Render Form ////////////////////////////////
+/////////////////////////////////   Render Form  ////////////////////////////////
   render(){
     return(
       <div>
@@ -88,43 +138,33 @@ class EditProfile extends Component {
           Edit Profile
         </button>
           {this.state.showForm ? this.showForm() : null}
-          <div> <UserInfo info= {this.state.user_profile} /></div>
+        <div> <UserInfo info= {this.state} imgURL ={this.state.userImage} /></div>
       </div>
       )
     }
 
 }
-
-//////////////////////////////  Show existing details of user //////////////////
+///////////////////////////  Show existing details of user /////////////////////
 class UserInfo extends Component {
 
-  fetchUserInfo = () => {
-    const userInfo = this.props.info;
-    return userInfo.map( (i) => {
-      return (
-        <div>
-          <h2>{i.name}</h2>
-          <h3>{moment(i.DOB.toDate()).format ('MMMM Do YYYY')}</h3>
-          <h4>{i.aboutme}</h4>
-        </div>
-
-      );
-    });
-  }
-
   render(){
-
+    const info = this.props.info;
     return(
       <div>
-        {this.fetchUserInfo()}
+        <Card
+          style={{ width: 630 }}
+          cover={<img alt="userpic" src={this.props.imgURL} />}
+        >
+          <Meta
+            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+            title= { (<div> <h1> <strong> {info.name} </strong> </h1>
+            <h4> {info.DOB ? moment(info.DOB.toDate()).format('MMMM Do YYYY'): null} </h4> </div>)}
+            description={info.aboutme}
+          />
+        </Card>
       </div>
     )
   }
 }
 
-
-
-
-
-
-export default EditProfile
+export default EditProfile;
