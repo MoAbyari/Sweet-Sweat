@@ -4,8 +4,7 @@ import React, {Component} from 'react';
 import { fsDb, storage} from "../services/firebase"
 import { getCurrentUser } from '../helpers/auth';
 import moment from 'moment';
-import { Card, Avatar  } from 'antd';
-const { Meta } = Card;
+// import { doc, setDoc, Timestamp } from "../services/firebase";
 
 /////////////////////////// Ant Design//////////  file upload /////////////////
 
@@ -17,9 +16,7 @@ class EditProfile extends Component {
       showForm: false,
       name: '',
       DOB:'',
-      aboutme:'',
-      photo: '',
-      userImage: ''
+      aboutme:''
     }
 
     this._renderName = this._renderName.bind(this);
@@ -46,40 +43,7 @@ class EditProfile extends Component {
       },
     };
   }
-// ///////////////////////////  Fetching existing User Info ///////////////////////
-  componentDidMount(){
-      this.fetchUserInfo();
-  }
 
-  fetchUserInfo = () => {
-    fsDb.collection('user_profiles')
-    .where('user_id', '==', getCurrentUser().uid)
-    .get()
-    .then((snapshots) => {
-      snapshots.forEach((f) =>{
-      this.setState({
-        name: (f.data()).name,
-        aboutme: (f.data()).aboutme,
-        DOB: (f.data()).DOB,
-        userImage: (f.data()).userImage
-        });
-      });
-    });
-  };
-//////////////////////////////////   Upload File  //////////////////////////////
-  uploadFile = (file) => {
-    const storageRef = storage.ref()
-    const fileRef = storageRef.child(file.name)
-    return fileRef.put(file).then(() =>{
-      fsDb.collection("user_profiles").doc()
-      .set({ photo: `gs://sweet-sweat.appspot.com/${file.name}`},{merge:true}).then((firebaseImage)=>{
-        fileRef.getDownloadURL().then((url) => {
-          this.setState({userImage: url })
-        })
-      })
-    })
-  }
-///////////////////////  Set and update user info to Db ////////////////////////
 
   saveProfile(data){
     fsDb.collection("user_profiles")
@@ -88,13 +52,11 @@ class EditProfile extends Component {
     .then((snapshots) => {
       snapshots.forEach( (userProfile) => {
         fsDb.collection("user_profiles").doc(userProfile.id)
-        .set({ name: data.name, DOB: data.DOB, aboutme: data.aboutme, userImage:data.userImage},{merge:true})
-      });
-      this.fetchUserInfo();
+        .set({ name: data.name, DOB: data.DOB, aboutme: data.aboutme},{merge:true})
+        .then(() => {console.log("Document successfully written!");})
+      })
     })
   }
-
-////////////////////////////  Form  eventHandler ///////////////////////////////
 
   _handleSubmit(event){
     event.preventDefault();
@@ -111,26 +73,21 @@ class EditProfile extends Component {
     this.setState({aboutme : event.target.value });
   }
 
-/////////////////////////////////  Form Show  //////////////////////////////////
+showForm(){
+  return(
+    <div>
+    <form onSubmit={this._handleSubmit}>
+      Name:<input type="text" onChange={this._renderName} />
+      DOB:<input type="date" onChange={this._renderDOB} />
+      Aboutme:<textarea type="text" onChange={this._renderAboutMe} />
+      <br/>
+      <input type="submit" value= "Save"/>
+    </form>
+    <input type="submit" value= "Cancel" onClick={() => this.setState({showForm: false}) }/>
+    </div>
+  )
+}
 
-  showForm(){
-    return(
-      <div>
-        <form onSubmit={this._handleSubmit}>
-          Name:<input type="text" onChange={this._renderName} value = {this.state.name} required/>
-          DOB:<input type="date" onChange={this._renderDOB} required/>
-          Aboutme:<textarea type="text" onChange={this._renderAboutMe} value={this.state.aboutme} required/>
-          <Upload {...this.uploadProps}>
-          <Button icon={<UploadOutlined />}>Upload Profile Photo</Button>
-          </Upload>
-          <br/>
-          <input type="submit" value= "Save"/>
-        </form>
-        <input type="submit" value= "Cancel" onClick={() => this.setState({showForm: false}) }/>
-      </div>
-    )
-  }
-/////////////////////////////////   Render Form  ////////////////////////////////
   render(){
     return(
       <div>
@@ -138,33 +95,12 @@ class EditProfile extends Component {
           Edit Profile
         </button>
           {this.state.showForm ? this.showForm() : null}
-        <div> <UserInfo info= {this.state} imgURL ={this.state.userImage} /></div>
-      </div>
-      )
-    }
-
-}
-///////////////////////////  Show existing details of user /////////////////////
-class UserInfo extends Component {
-
-  render(){
-    const info = this.props.info;
-    return(
-      <div>
-        <Card
-          style={{ width: 630 }}
-          cover={<img alt="userpic" src={this.props.imgURL} />}
-        >
-          <Meta
-            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-            title= { (<div> <h1> <strong> {info.name} </strong> </h1>
-            <h4> {info.DOB ? moment(info.DOB.toDate()).format('MMMM Do YYYY'): null} </h4> </div>)}
-            description={info.aboutme}
-          />
-        </Card>
       </div>
     )
   }
+
 }
 
-export default EditProfile;
+
+
+export default EditProfile

@@ -7,7 +7,6 @@ import { getCurrentUser } from '../helpers/auth';
 
 class PublicProfile extends Component {
   render () {
-
     return (
       <div>
         <ActivityCard userId={ this.props.location.state?.userId }/>
