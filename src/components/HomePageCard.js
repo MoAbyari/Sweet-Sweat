@@ -5,9 +5,6 @@ import { Card } from 'antd';
 import moment from 'moment';
 const { Meta } = Card;
 
-
-
-
 class HomePageCard extends React.Component {
 
   state = {

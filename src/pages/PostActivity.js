@@ -17,7 +17,6 @@ class PostActivity extends Component {
   }
 ////////////////// create activity and save on db (firestore) //////////////////
   saveActivity = (data) => {
-    console.log(data.location);
     fsDb.collection("activities")
     .doc()
     .set({
@@ -34,7 +33,7 @@ class PostActivity extends Component {
     })
     .then(() => {console.log("Activity successfully created!");})
   }
-  
+
   _handleSubmit = (event) => {
     event.preventDefault();
     this.saveActivity(this.state);

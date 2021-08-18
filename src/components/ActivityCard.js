@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import { fsDb } from "../services/firebase"
 import moment from 'moment';
-
+import { getCurrentUser } from '../helpers/auth';
 
 import { Card } from 'antd';
 import './ActivityCard.css';
+import EditActivity from './EditActivity';
 
 
 class ActivityCard extends Component {
@@ -23,7 +25,9 @@ class ActivityCard extends Component {
       .then((snapshots) => {
         let activities = [];
         snapshots.forEach((activity) => {
-          activities.push(activity.data());
+          const docId = activity.id;
+          const activityObj = activity.data();
+          activities.push({ ...activityObj, docId });
         });
       this.setState({activities: activities});
       });
@@ -31,26 +35,48 @@ class ActivityCard extends Component {
 
     renderActivities = () => {
       const activities = this.state.activities;
-      return activities.map((activity, index) => {
-
-        return (
-          <div key={index} className="site-card-border-less-wrapper">
-            <Card
-              title={activity.title}
-              bordered={false} style={{ width: 600 }}>
-              <p>{activity.description}</p>
-              <p>
-                {
-                activity.location.street_number + ', '
-                + activity.location.street + ', '
-                + activity.location.suburb
-                }
-              </p>
-              <p>{moment(activity.time.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
-            </Card>
-          </div>
-        );
-      });
+      if (this.props.userId === getCurrentUser().uid) {
+        return activities.map((activity, index) => {
+          return (
+            <div key={index} className="site-card-border-less-wrapper">
+              <EditActivity documentId={activity.docId} documentInfo={activity} />
+              <Card
+                title={activity.title}
+                bordered={false} style={{ width: 600 }}>
+                <p>{activity.description}</p>
+                <p>
+                  {
+                  activity.location.street_number + ', '
+                  + activity.location.street + ', '
+                  + activity.location.suburb
+                  }
+                </p>
+                <p>{moment(activity.time.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
+              </Card>
+            </div>
+          );
+        });
+      } else {
+        return activities.map((activity, index) => {
+          return (
+            <div key={index} className="site-card-border-less-wrapper">
+              <Card
+                title={activity.title}
+                bordered={false} style={{ width: 600 }}>
+                <p>{activity.description}</p>
+                <p>
+                  {
+                  activity.location.street_number + ', '
+                  + activity.location.street + ', '
+                  + activity.location.suburb
+                  }
+                </p>
+                <p>{moment(activity.time.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
+              </Card>
+            </div>
+          );
+        });
+      }
     }
 
   render() {
@@ -61,5 +87,6 @@ class ActivityCard extends Component {
     );
   }
 }
+
 
 export default ActivityCard;
