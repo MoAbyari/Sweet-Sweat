@@ -158,7 +158,7 @@ class UserInfo extends Component {
     return(
       <div>
         <Card
-          style={{ width: 500 }}
+          style={{ width: 640 }}
           cover={<img alt="userpic" src={this.props.imgURL} />}
         >
           <Meta
