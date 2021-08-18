@@ -3,6 +3,19 @@ import { fsDb } from "../services/firebase"
 import { getCurrentUser } from '../helpers/auth';
 import moment from 'moment';
 
+/////////////////////////////////////// Delete Popconfirm message from Antdesign ///////////////////////
+import { Popconfirm, message } from 'antd';
+
+function confirm(e) {
+  console.log(e);
+  message.success('Click on Yes');
+}
+
+function cancel(e) {
+  console.log(e);
+  message.error('Click on No');
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class DeleteActivity extends Component {
 
@@ -17,17 +30,25 @@ deleteActivity = () => {
   });
 }
 
-_handleDelete = (event) => {
+_handleDelete = () => {
   this.deleteActivity();
+  this.props.deleteAtivity(this.props.documentId);
 }
 
 /////////////////////////////////   Render Form ////////////////////////////////
   render() {
     return(
       <div>
-        <button onClick={ this._handleDelete }>
+      <Popconfirm
+        title="Are you sure you want to delete this activity?"
+        okText="Yes"
+        cancelText="No"
+        onConfirm={ this._handleDelete }
+      >
+        <button>
           Delete Activity
         </button>
+      </Popconfirm>
       </div>
     );
   }

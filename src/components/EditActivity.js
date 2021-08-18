@@ -26,7 +26,7 @@ class EditActivity extends Component {
 
 ///////////////////////  Set and update user info to Db ////////////////////////
 updateActivity = (data) => {
-  fsDb.collection("activities")
+  return fsDb.collection("activities")
   .doc(this.props.documentId)
   .set({
     title: data.title,
@@ -44,7 +44,10 @@ updateActivity = (data) => {
 
 _handleSubmit = (event) => {
   event.preventDefault();
-  this.updateActivity(this.state);
+  this.setState({showForm:false});
+  this.updateActivity(this.state).then(() => {
+    this.props.updateActivity();
+  })
 }
 
 ///////////////////////////////  Form  eventHandler ///////////////////////////////

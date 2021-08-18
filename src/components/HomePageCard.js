@@ -20,7 +20,7 @@ class HomePageCard extends React.Component {
     const nameAndAge = fsDb
       .collection("user_profiles")
       .where("user_id", "==", userActivityInfo).get().then((info) => {
-        this.setState({user: info.docs[0].data()});
+        this.setState({user: info.docs[0] ? info.docs[0].data() : null });
       });
 
   }

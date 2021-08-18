@@ -37,7 +37,9 @@ class PostActivity extends Component {
   _handleSubmit = (event) => {
     event.preventDefault();
     this.saveActivity(this.state);
+    this.props.history.push('/Profile'); // redirects to Profile page after creating the activity
   }
+
   ////////////////// renders all input fields in the state //////////////////
   renderTitle = (event) => {
     this.setState({title: event.target.value});
