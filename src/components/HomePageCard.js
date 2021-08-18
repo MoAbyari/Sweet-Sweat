@@ -42,7 +42,7 @@ class HomePageCard extends React.Component {
             ' | ' +
             moment(this.state.user?.DOB?.toDate()).toNow('Y')
           }
-          cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />} >
+          cover={<img alt="example" src={this.state.user?.userImage}/>} >
           <Meta title={activity.title} description="" /> <br/>
             <h5>
               {
