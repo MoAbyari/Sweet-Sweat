@@ -26,6 +26,7 @@ class SearchBar extends Component {
 
   handleSearch = (event) => {
     event.preventDefault();
+    if (!this.state.searchInput?.type) return;
     fsDb.collection("activities").where("type", "==", this.state.searchInput.type).get().then((snapshots) => {
       let activities = [];
       snapshots.forEach((doc) => {
