@@ -33,7 +33,13 @@ class HomePageCard extends React.Component {
       <Link
         to={{
           pathname: "/PublicProfile",
-          state: { userId: this.state.user?.user_id }
+          state: {
+            userId: this.state.user?.user_id ,
+            name: this.state.user?.name,
+            aboutme: this.state.user?.aboutme,
+            DOB: this.state.user?.DOB,
+            userImage: this.state.user?.userImage
+          }
         }}
       >
         <Card hoverable style={{ width: 400 }}

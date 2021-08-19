@@ -23,10 +23,6 @@ class EditProfile extends Component {
       userDocId: ''
     }
 
-    this._renderName = this._renderName.bind(this);
-    this._renderDOB = this._renderDOB.bind(this);
-    this._renderAboutMe = this._renderAboutMe.bind(this);
-    this._handleSubmit = this._handleSubmit.bind(this);
     this.uploadFile = this.uploadFile.bind(this);
 ///////////////////////////// Ant Upload file action ///////////////////////////
     this.uploadProps = {
@@ -40,10 +36,10 @@ class EditProfile extends Component {
           console.log(info.file, info.fileList);
         }
         if (info.file.status === 'done') {
-          message.success(`${info.file.name} file uploaded successfully`);
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} file upload failed.`);
-        }
+          message.success(`${info.file.name} file uploaded successfully`);}
+        // } else if (info.file.status === 'error') {
+        //   message.error(`${info.file.name} file upload failed.`);
+        // }
       },
     };
   }
@@ -82,7 +78,6 @@ class EditProfile extends Component {
     })
   }
 ///////////////////////  Set and update user info to Db ////////////////////////
-
   saveProfile(data){
     console.log("1");
     fsDb.collection("user_profiles")
@@ -100,26 +95,22 @@ class EditProfile extends Component {
     })
     console.log("4");
   }
-
 ////////////////////////////  Form  eventHandler ///////////////////////////////
-
-  _handleSubmit(event){
+  _handleSubmit = (event) => {
     event.preventDefault();
     this.saveProfile(this.state);
     this.setState({showForm:false})
   }
-  _renderName(event){
+  _renderName = (event) => {
     this.setState({name : event.target.value });
   }
-  _renderDOB(event){
+  _renderDOB = (event) => {
     this.setState({DOB : moment(event.target.value)});
   }
-  _renderAboutMe(event){
+  _renderAboutMe = (event) => {
     this.setState({aboutme : event.target.value });
   }
-
 /////////////////////////////////  Form Show  //////////////////////////////////
-
   showForm(){
     return(
       <div>
@@ -160,7 +151,7 @@ class UserInfo extends Component {
     return(
       <div>
         <Card
-          style={{ width: 500 }}
+          style={{ width: 630 }}
           cover={<img alt="userpic" src={this.props.imgURL} />}
         >
           <Meta
