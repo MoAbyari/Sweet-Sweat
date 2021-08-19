@@ -6,7 +6,7 @@ const config = {
   authDomain: "sweet-sweat.firebaseapp.com",
   databaseURL: "https://sweet-sweat-default-rtdb.asia-southeast1.firebasedatabase.app/",
   storageBucket: "sweet-sweat.appspot.com",
-  projectId: "sweet-sweat",
+  projectId: "sweet-sweat"
 };
 
 firebase.initializeApp(config);
