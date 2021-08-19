@@ -19,7 +19,8 @@ class EditProfile extends Component {
       DOB:'',
       aboutme:'',
       photo: '',
-      userImage: ''
+      userImage: '',
+      userDocId: ''
     }
 
     this._renderName = this._renderName.bind(this);
@@ -56,12 +57,13 @@ class EditProfile extends Component {
     .where('user_id', '==', getCurrentUser().uid)
     .get()
     .then((snapshots) => {
-      snapshots.forEach((f) =>{
+      snapshots.forEach((f) => {
       this.setState({
         name: (f.data()).name,
         aboutme: (f.data()).aboutme,
         DOB: (f.data()).DOB,
-        userImage: (f.data()).userImage
+        userImage: (f.data()).userImage,
+        userDocId: f.id
         });
       });
     });
@@ -71,7 +73,7 @@ class EditProfile extends Component {
     const storageRef = storage.ref()
     const fileRef = storageRef.child(file.name)
     return fileRef.put(file).then(() =>{
-      fsDb.collection("user_profiles").doc('3LApeTneZZMdtwmqIOCc')
+      fsDb.collection("user_profiles").doc(this.state.userDocId)
       .set({ photo: `gs://sweet-sweat.appspot.com/${file.name}`},{merge:true}).then((firebaseImage)=>{
         fileRef.getDownloadURL().then((url) => {
           this.setState({userImage: url })

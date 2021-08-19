@@ -1,11 +1,24 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import {Link} from "react-router-dom";
+import { auth } from "../services/firebase";
+import { withRouter } from "react-router";
 import { signOut } from '../helpers/auth';
 
-class NavBar extends Component{
+class NavBar extends Component {
+  constructor() {
+  super();
+    this.state = {
+      user: auth().currentUser
+    }
+  }
 
   handleLogOut = () => {
-    signOut()
+    console.log(this.props.history);
+
+    signOut().then(() => {
+      this.props.history.push('/login');
+
+    })
   }
 
 render(){
@@ -16,6 +29,7 @@ render(){
         <Link to="/Profile"> Profile |</Link>
         <Link to="/Chat"> Messages |</Link>
         <a onClick={this.handleLogOut}> Logout </a>
+        Logged in as: <strong>{this.state.user.email}</strong>
       </nav>
     );
   } else{
@@ -32,4 +46,4 @@ render(){
 
 }
 
-export default NavBar;
+export default withRouter(NavBar);
