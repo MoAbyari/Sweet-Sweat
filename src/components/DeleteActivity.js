@@ -4,7 +4,7 @@ import { getCurrentUser } from '../helpers/auth';
 import moment from 'moment';
 
 /////////////////////////////////////// Delete Popconfirm message from Antdesign ///////////////////////
-import { Popconfirm, message } from 'antd';
+import { Popconfirm, message, Button } from 'antd';
 
 function confirm(e) {
   console.log(e);
@@ -45,9 +45,9 @@ _handleDelete = () => {
         cancelText="No"
         onConfirm={ this._handleDelete }
       >
-        <button>
+        <Button type="ghost" danger>
           Delete Activity
-        </button>
+        </Button>
       </Popconfirm>
       </div>
     );

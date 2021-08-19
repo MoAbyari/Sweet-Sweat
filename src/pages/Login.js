@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { signin, signInWithGoogle } from "../helpers/auth";
+import { Input } from 'antd';
 
 class Login extends React.Component {
   constructor(props) {
@@ -13,13 +14,13 @@ class Login extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
- 
+
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     });
   }
- 
+
   async handleSubmit(event) {
     event.preventDefault();
     this.setState({ error: "" });
@@ -36,9 +37,10 @@ class Login extends React.Component {
       <form
         autoComplete="off"
         onSubmit={this.handleSubmit}
+        style={{ maxWidth: '800px', margin: '0 auto' }}
       >
         <h1>
-          Login to
+          Login to{' '}
           <Link to="/">
             Sweet&Sweat
           </Link>
@@ -47,7 +49,7 @@ class Login extends React.Component {
           Fill in the form below to login to your account.
         </p>
         <div>
-          <input
+          <Input
             placeholder="Email"
             name="email"
             type="email"
@@ -56,12 +58,13 @@ class Login extends React.Component {
           />
         </div>
         <div>
-          <input
+          <Input
             placeholder="Password"
             name="password"
             onChange={this.handleChange}
             value={this.state.password}
             type="password"
+            style={{ margin: '20px 0'}}
           />
         </div>
         <div>

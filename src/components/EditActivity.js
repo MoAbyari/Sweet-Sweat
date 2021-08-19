@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { fsDb } from "../services/firebase"
-import { getCurrentUser } from '../helpers/auth';
 import moment from 'moment';
-
-
+import { Button, Input, Typography, Divider } from 'antd';
+const { TextArea } = Input;
+const { Text } = Typography;
 class EditActivity extends Component {
   constructor(props){
     super(props);
@@ -43,7 +43,6 @@ updateActivity = (data) => {
 }
 
 _handleSubmit = (event) => {
-  event.preventDefault();
   this.setState({showForm:false});
   this.updateActivity(this.state).then(() => {
     this.props.updateActivity();
@@ -76,69 +75,74 @@ renderDescription = (event) => {
 ////////////////////////////////////  Form Show  //////////////////////////////////
   showForm = () => {
     return(
-      <div>
-        <form onSubmit={ this._handleSubmit }>
-          Title:
-          <input
+      <div style={{ marginTop: '20px' }}>
+        <form style={{ display: 'flex', flexDirection: 'column' }}>
+          <Text>Title:</Text>
+          <Input
             type="text"
             placeholder="5k morning run"
-            style={{ width: '40%' }}
+            style={{ width: '40%', marginBottom: '20px' }}
             onChange={ this.renderTitle }
             value={this.state.title}
             required
           />
-          Type:
-          <input
+          <Text>Type:</Text>
+          <Input
             type="text"
             placeholder="Running"
-            style={{ width: '40%' }}
+            style={{ width: '40%', marginBottom: '20px' }}
             onChange={ this.renderType }
             value={this.state.type}
             required
           />
-          Time:
-          <input
+          <Text>Time:</Text>
+          <Input
             type="date"
-            style={{ width: '40%' }}
+            style={{ width: '40%', marginBottom: '20px' }}
             onChange={ this.renderTime }
             required
           />
-          Location:
-          <input
+          <Text>Location:</Text>
+          <Input
             type="number"
             placeholder="Street number"
-            style={{ width: '30%' }}
+            style={{ width: '30%', marginBottom: '20px' }}
             onChange={ this.renderStreetNumber }
             value={this.state.location.street_number}
             required
           />
-          <input
+          <Input
             type="text"
             placeholder="Street name"
-            style={{ width: '30%' }}
+            style={{ width: '30%', marginBottom: '20px' }}
             onChange={ this.renderStreetName }
             value={this.state.location.street}
             required
           />
-          <input
+          <Input
             type="text"
             placeholder="SUBURB"
-            style={{ width: '30%' }}
+            style={{ width: '30%', marginBottom: '20px' }}
             onChange={ this.renderSuburb }
             value={this.state.location.suburb}
             required
           />
-          Description:
-          <textarea
+          <Text>Description:</Text>
+          <TextArea
             type="text"
             placeholder="Please provide a brief info about this activity"
             onChange={ this.renderDescription }
             value={this.state.description}
             required
+            style={{ marginBottom: '20px' }}
           />
-          <input type="submit" value="Update" />
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button style={{ marginRight: '10px' }} type="primary" onClick={this._handleSubmit}>Update</Button>
+            <Button onClick={() => this.setState({ showForm: false })}>
+              Cancel
+            </Button>
+          </div>
         </form>
-        <input type="submit" value= "Cancel" onClick={() => this.setState({showForm: false}) }/>
       </div>
     )
   }
@@ -146,10 +150,12 @@ renderDescription = (event) => {
 /////////////////////////////////   Render Form ////////////////////////////////
   render() {
     return(
-      <div>
-        <button onClick={() => this.setState({showForm: true}) }>
+      <div style={{ marginBottom: '10px' }}>
+        <Button
+          onClick={() => this.setState({showForm: true}) }
+        >
           Edit Activity
-        </button>
+        </Button>
         {this.state.showForm ? this.showForm() : null}
       </div>
     );

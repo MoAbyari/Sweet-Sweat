@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // import { auth } from "../services/firebase";
 // import { getCurrentUser } from '../helpers/auth';
 // import moment from 'moment';
-
+import { Button } from 'antd';
 
 class PrivateChat extends Component {
   constructor() {
@@ -19,41 +19,32 @@ class PrivateChat extends Component {
   }
 
   renderMessages = () => {
-    const messages = this.props.location.state.chats;
+    const messages = this.props.location?.state?.chats;
     this.setState({messages: messages})
   }
 
-//
-//   fetchChats = () => {
-//   fsDb
-//     .collection("chats")
-//     .where("participants", "array-contains", getCurrentUser().uid)
-//     .get()
-//     .then((snapshots) => {
-//       let chats = [];
-//       snapshots.forEach((chat) => {
-//         chats.push(chat.data());
-//       });
-//     this.setState({chats: chats});
-//   });
-// }
 
 handleChange = (event) => {
-  this.setState({content: event.target.value});
+  this.setState({ content: event.target.value });
 }
 
+handleSubmit = () => {
+  alert('To be implemented!')
+}
 
   render () {
     return (
       <div>
         <div className="messages">
-          {this.state.messages.map(message => {
+          {this.state?.messages?.map(message => {
             return <p key={message.timestamp}>{message.message}</p>
           })}
         </div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
           <textarea type="text" onChange={this.handleChange} value={this.state.content} />
-          <input type="submit" value="Send" />
+          <Button onClick={this.handleSubmit} type="primary" style={{ maxWidth: '200px', marginTop: '20px' }} >
+            Send
+          </Button>
         </form>
       </div>
     );

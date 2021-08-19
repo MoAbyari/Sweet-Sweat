@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { fsDb } from "../services/firebase"
 import { getCurrentUser } from '../helpers/auth';
 import moment from 'moment';
+import { Input, Button } from 'antd';
 
-
+const { TextArea } = Input;
 class PostActivity extends Component {
   constructor() {
     super();
@@ -35,7 +36,6 @@ class PostActivity extends Component {
   }
 
   _handleSubmit = (event) => {
-    event.preventDefault();
     this.saveActivity(this.state);
     this.props.history.push('/Profile'); // redirects to Profile page after creating the activity
   }
@@ -66,60 +66,66 @@ class PostActivity extends Component {
   render () {
     return (
       <div>
-        <form onSubmit={ this._handleSubmit }>
-          Title:
-          <input
+        <form onSubmit={ this._handleSubmit } style={{ display:'flex', flexDirection: 'column', maxWidth: '800px' }}>
+          <span>Title:</span>
+          <Input
             type="text"
             placeholder="5k morning run"
             style={{ width: '40%' }}
             onChange={ this.renderTitle }
             required
           />
-          Type:
-          <input
+          <span style={{ marginTop: '20px' }}>Type:</span>
+          <Input
             type="text"
             placeholder="Running"
             style={{ width: '40%' }}
             onChange={ this.renderType }
             required
           />
-          Time:
-          <input
+          <span style={{ marginTop: '20px' }}>Time:</span>
+          <Input
             type="date"
             style={{ width: '40%' }}
             onChange={ this.renderTime }
             required
           />
-          Location:
-          <input
+          <span style={{ marginTop: '20px' }}>Location:</span>
+          <Input
             type="number"
             placeholder="Street number"
             style={{ width: '30%' }}
             onChange={ this.renderStreetNumber }
             required
           />
-          <input
+          <Input
             type="text"
             placeholder="Street name"
-            style={{ width: '30%' }}
+            style={{ width: '30%', marginTop: '20px' }}
             onChange={ this.renderStreetName }
             required
           />
-          <input
+          <Input
             type="text"
             placeholder="SUBURB"
-            style={{ width: '30%' }}
+            style={{ width: '30%', marginTop: '20px' }}
             onChange={ this.renderSuburb }
             required
           />
-          Description:
-          <textarea
+          <span style={{ marginTop: '20px' }} >Description:</span>
+          <TextArea
             type="text"
             placeholder="Please provide a brief info about this activity"
             onChange={ this.renderDescription }
             required
           />
-          <input type="submit" value="Create activity" />
+          <Button
+            style={{ marginTop: '20px' }}
+            onClick={this._handleSubmit}
+            type="primary"
+          >
+            Create activity
+          </Button>
         </form>
       </div>
     )

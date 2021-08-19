@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import { auth } from "../services/firebase";
 import { withRouter } from "react-router";
 import { signOut } from '../helpers/auth';
+import { Menu } from 'antd';
 
 class NavBar extends Component {
   constructor() {
@@ -13,31 +14,42 @@ class NavBar extends Component {
   }
 
   handleLogOut = () => {
-    console.log(this.props.history);
-
     signOut().then(() => {
-      this.props.history.push('/login');
-
+      window.location.href= '/login';
     })
   }
 
 render(){
   if (this.props.isLoggedIn){
     return (
-      <nav className ="nav">
-        <Link to="/">Home |</Link>
-        <Link to="/Profile"> Profile |</Link>
-        <Link to="/Chat"> Messages |</Link>
-        <a onClick={this.handleLogOut}> Logout </a>
-        Logged in as: <strong>{this.state?.user?.email}</strong>
-      </nav>
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+        <Menu.Item key="1">
+           <Link to="/">Home</Link>
+        </Menu.Item>
+        <Menu.Item key="2">
+          <Link to="/Profile"> Profile</Link>
+        </Menu.Item>
+        <Menu.Item key="3">
+          <Link to="/Chat"> Messages</Link>
+        </Menu.Item>
+        <Menu.Item key="4">
+          <a onClick={this.handleLogOut}> Logout </a>
+        </Menu.Item>
+        <Menu.Item key="5">
+          <strong>{this.state.user?.email}</strong>
+        </Menu.Item>
+      </Menu>
     );
   } else{
     return (
-      <nav className ="nav">
-        <Link to="/signup"> Signup |</Link>
-        <Link to="/login"> Login </Link>
-      </nav>
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+        <Menu.Item key="2">
+          <Link to="/signup"> Signup</Link>
+        </Menu.Item>
+        <Menu.Item key="3">
+          <Link to="/login"> Login </Link>
+        </Menu.Item>
+      </Menu>
     );
   }
 }

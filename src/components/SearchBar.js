@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { fsDb } from "../services/firebase"
-
+import { Button } from 'antd';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
@@ -44,20 +44,22 @@ class SearchBar extends Component {
   render() {
     return(
       <div>
-        <form>
+        <form style={{ display: 'flex', marginBottom: '20px' }}>
 
           <Autocomplete
             onChange={ this.handleChange }
             id="combo-box-demo"
             options={ activityTypes }
             getOptionLabel={(option) => option.type}
-            style={{ width: 300 }}
+            style={{ flex: 1 }}
             renderInput={(params) => <TextField {...params} label="Search activity" variant="outlined" />}
           />
-
-          <button onClick={ this.handleSearch }>Search</button>
-          <button onClick={ this.clearSearch }>Clear</button>
-
+          <Button
+            onClick={this.handleSearch}
+            type="primary"
+            style={{ height: 'auto' }}
+          >Search</Button>
+          <button onClick={this.clearSearch}>Clear</button>
         </form>
       </div>
     );
