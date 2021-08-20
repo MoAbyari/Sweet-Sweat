@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Card } from 'antd';
 import { fsDb } from "../services/firebase";
 import { uniq, findWhere } from "underscore";
 import { getCurrentUser } from '../helpers/auth';
+import moment from 'moment';
 
 class Chat extends React.Component {
   constructor(props) {
@@ -28,8 +30,8 @@ class Chat extends React.Component {
       .get()
       .then((snapshots) => {
         let chats = [];
-        snapshot.forEach((snap) => {
-          chats.push(snap.val());
+        snapshots.forEach((snap) => {
+          chats.push(snap.data());
         });
 
         let allParticipantsId = []
@@ -77,7 +79,8 @@ class Chat extends React.Component {
           <div key={ index }>
             <Card
               title="Messages"
-              bordered={false} style={{ width: 600 }}>
+              bordered={false} style={{ width: 600 }}
+              >
               <div>
                 {this.renderParticipant(chat.participants[1])}
               </div>
@@ -94,19 +97,7 @@ class Chat extends React.Component {
   render () {
     return (
       <div>
-        <div className="chats">
-          {this.state.chats.map(chat => {
-            return <p key={chat.timestamp}>{chat.content}</p>
-          })}
-        </div>
-        <form onSubmit={this.handleSubmit}>
-          <input onChange={this.handleChange} value={this.state.content}></input>
-          {this.state.error ? <p>{this.state.writeError}</p> : null}
-          <button type="submit">Send</button>
-        </form>
-        <div>
-          Login in as: <strong>{this.state.user.email}</strong>
-        </div>
+        {this.renderChats()}
       </div>
     )
   }
