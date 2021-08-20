@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
+import { Card } from 'antd';
 import { fsDb } from "../services/firebase";
 import { uniq, findWhere } from "underscore";
 import { getCurrentUser } from '../helpers/auth';
@@ -78,18 +80,26 @@ class Chat extends React.Component {
       return chats.map((chat, index) => {
         return (
           <div key={ index }>
-            <Card
-              title="Messages"
-              bordered={false} style={{ width: 600 }}
-              >
-              <div>
-                {this.renderParticipant(chat.participants[1])}
-              </div>
-              <p>
-                {chat.messages ? moment(chat.messages[chat.messages.length - 1].timestamp?.toDate())
-                .format('MMMM Do YYYY, h:mm:ss a') : 'no date'}
-              </p>
-            </Card>
+            <Link
+              to={{
+                pathname: "/PrivateChat",
+                state: {
+                  chats: chat.messages,
+                }
+              }}
+            >
+              <Card
+                title="Messages"
+                bordered={false} style={{ width: 600 }}>
+                <div>
+                  {this.renderParticipant(chat.participants[1])}
+                </div>
+                <p>
+                  {chat.messages ? moment(chat.messages[chat.messages.length - 1].timestamp?.toDate())
+                  .format('MMMM Do YYYY, h:mm:ss a') : 'no date'}
+                </p>
+              </Card>
+            </Link>
           </div>
         );
       });

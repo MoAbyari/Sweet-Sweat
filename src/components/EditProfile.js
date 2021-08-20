@@ -152,10 +152,9 @@ class UserInfo extends Component {
       <div>
         <Card
           style={{ width: 630 }}
-          cover={<img alt="userpic" src={this.props.imgURL} />}
+          cover={<img alt="userpic" src={this.props.imgURL || "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} />}
         >
           <Meta
-            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
             title= { (<div> <h1> <strong> {info.name} </strong> </h1>
             <h4> {info.DOB ? moment(info.DOB.toDate()).format('MMMM Do YYYY'): null} </h4> </div>)}
             description={info.aboutme}
