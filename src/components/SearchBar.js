@@ -36,6 +36,11 @@ class SearchBar extends Component {
     })
   }
 
+  clearSearch = (event) => {
+    event.preventDefault();
+    this.props.clearSearch();
+  }
+
   render() {
     return(
       <div>
@@ -51,6 +56,7 @@ class SearchBar extends Component {
           />
 
           <button onClick={ this.handleSearch }>Search</button>
+          <button onClick={ this.clearSearch }>Clear</button>
 
         </form>
       </div>

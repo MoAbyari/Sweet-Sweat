@@ -3,6 +3,10 @@ import { fsDb } from "../services/firebase";
 import { uniq, findWhere } from "underscore";
 import { getCurrentUser } from '../helpers/auth';
 
+import moment from 'moment';
+import { Card } from 'antd';
+import '../components/ActivityCard.css';
+
 class Chat extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +32,7 @@ class Chat extends React.Component {
       .get()
       .then((snapshots) => {
         let chats = [];
-        snapshot.forEach((snap) => {
+        snapshots.forEach((snap) => {
           chats.push(snap.val());
         });
 
