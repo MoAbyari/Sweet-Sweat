@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Card } from 'antd';
 import { fsDb } from "../services/firebase";
 import { uniq, findWhere } from "underscore";
 import { getCurrentUser } from '../helpers/auth';
-import moment from 'moment';
-
 import moment from 'moment';
 import { Card } from 'antd';
 import '../components/ActivityCard.css';
