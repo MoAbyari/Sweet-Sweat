@@ -11,6 +11,7 @@ import Chat from '../pages/Chat';
 import Profile from '../pages/Profile';
 import PublicProfile from '../pages/PublicProfile';
 import PostActivity from '../pages/PostActivity';
+import PrivateChat from '../pages/PrivateChat';
 import Signup from '../pages/Signup';
 import Login from '../pages/Login';
 import { auth } from '../services/firebase';
@@ -62,6 +63,7 @@ class App extends Component {
           <PrivateRoute path="/profile" authenticated={this.state.authenticated} component={Profile}></PrivateRoute>
           <PrivateRoute path="/PublicProfile" authenticated={this.state.authenticated} component={PublicProfile}></PrivateRoute>
           <PrivateRoute path="/PostActivity" authenticated={this.state.authenticated} component={PostActivity}></PrivateRoute>
+          <PrivateRoute path="/PrivateChat" authenticated={this.state.authenticated} component={PrivateChat}></PrivateRoute>
           <PublicRoute path="/signup" authenticated={this.state.authenticated} component={Signup}></PublicRoute>
           <PublicRoute path="/login" authenticated={this.state.authenticated} component={Login}></PublicRoute>
         </Switch>
