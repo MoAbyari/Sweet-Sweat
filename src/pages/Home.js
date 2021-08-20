@@ -32,7 +32,7 @@ class Home extends Component {
   render () {
     return (
       <div>
-        <SearchBar onSearch={ this.onSearch } />
+        <SearchBar onSearch={ this.onSearch } clearSearch={ this.fetchAllActivities } />
         <CardsContainer activities={ this.state.allActivities } />
       </div>
     )

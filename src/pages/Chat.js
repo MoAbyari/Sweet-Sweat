@@ -5,6 +5,10 @@ import { uniq, findWhere } from "underscore";
 import { getCurrentUser } from '../helpers/auth';
 import moment from 'moment';
 
+import moment from 'moment';
+import { Card } from 'antd';
+import '../components/ActivityCard.css';
+
 class Chat extends React.Component {
   constructor(props) {
     super(props);
