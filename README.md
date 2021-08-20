@@ -1,6 +1,8 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was inspired by the current lockdown circumstances where people are isolated inside and might not have enough motivation to get out there and exercise!
+We created an activity-based dating app to light that fire in their hearts.  
+You can access it through this link [Sweet & Sweat](https://sweet-sweat.web.app/).
 
 ## Available Scripts
 
