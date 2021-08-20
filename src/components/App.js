@@ -57,7 +57,7 @@ class App extends Component {
     <Content style={{ padding: '0 50px' }}>
       <div className="site-layout-content">
         <Switch>
-          <Route exact path="/" component={Home}></Route>
+          <PrivateRoute exact path="/" component={Home} authenticated={this.state.authenticated} ></PrivateRoute>
           <PrivateRoute path="/chat" authenticated={this.state.authenticated}
           component={Chat}></PrivateRoute>
           <PrivateRoute path="/profile" authenticated={this.state.authenticated} component={Profile}></PrivateRoute>

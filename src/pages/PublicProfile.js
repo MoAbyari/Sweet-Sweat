@@ -12,16 +12,16 @@ class PublicProfile extends Component {
 
   renderProfileInfo =  () => {
     const state = this.props.location.state;
+    console.log("DOB",state.DOB);
       return(
         <div>
           <Card
             style={{ width: 630 }}
-            cover={<img alt="userpic" src={state.userImage} />}
+            cover={<img alt="userpic" src={state.userImage || "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} />}
           >
             <Meta
-              avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
               title= { (<div> <h1> <strong> {state?.name} </strong> </h1>
-              <h4> {state?.DOB ? moment(state.DOB.toDate()).format('MMMM Do YYYY'): null} </h4> </div>)}
+              <h4> {(state.DOB && state.DOB.toDate) ? moment(state.DOB.toDate()).format('MMMM Do YYYY') : null} </h4> </div>)}
               description= {state?.aboutme}
             />
           </Card>

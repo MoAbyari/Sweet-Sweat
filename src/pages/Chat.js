@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { Link } from "react-router-dom";
 
+=======
+import { Card } from 'antd';
+>>>>>>> a16f4bcbaaddf0511fb7d0428e6613226470ae61
 import { fsDb } from "../services/firebase";
 import { uniq, findWhere } from "underscore";
 import { getCurrentUser } from '../helpers/auth';
+import moment from 'moment';
 
 import moment from 'moment';
 import { Card } from 'antd';
