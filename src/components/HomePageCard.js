@@ -28,7 +28,7 @@ class HomePageCard extends React.Component {
   renderCard = () => {
     const activity = this.props.activity;
     if(!this.state.user?.user_id) return null;
-    console.log('returning card');
+    const dob = this.state?.user?.DOB;
     return(
       <Link
         to={{
@@ -58,7 +58,7 @@ class HomePageCard extends React.Component {
                 ', ' +
                 activity.location.suburb +
                 ' | '+
-                moment(activity.time.toDate()).format('MMMM Do YYYY')
+                moment(activity.time?.toDate()).format('MMMM Do YYYY')
               }
             </h5>
         </Card>
@@ -69,7 +69,7 @@ class HomePageCard extends React.Component {
 
   render() {
     return(
-      <div>
+      <div style={{ marginBottom: '20px' }}>
         {this.renderCard()}
       </div>
     )

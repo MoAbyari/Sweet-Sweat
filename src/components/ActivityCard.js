@@ -4,7 +4,7 @@ import { fsDb } from "../services/firebase"
 import moment from 'moment';
 import { getCurrentUser } from '../helpers/auth';
 
-import { Card } from 'antd';
+import { Card, Divider } from 'antd';
 import './ActivityCard.css';
 import EditActivity from './EditActivity';
 import DeleteActivity from './DeleteActivity';
@@ -59,20 +59,9 @@ class ActivityCard extends Component {
         return activities.map((activity, index) => {
           return (
             <div key={index} className="site-card-border-less-wrapper">
-              <EditActivity
-                documentId={activity.docId}
-                documentInfo={activity}
-                updateActivity={ this.updateActivity }
-              />
-
-              <DeleteActivity
-                deleteAtivity={ this.deleteActivity }
-                documentId={activity.docId}
-              />
-
               <Card
                 title={activity.title}
-                bordered={false} style={{ width: 600 }}>
+                bordered={false}>
                 <p>{activity.description}</p>
                 <p>
                   {
@@ -81,8 +70,20 @@ class ActivityCard extends Component {
                   + activity.location.suburb
                   }
                 </p>
-                <p>{moment(activity.time.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
+                <p>{moment(activity?.time?.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
               </Card>
+              <div style={{ marginTop: '10px' }}>
+                <EditActivity
+                  documentId={activity.docId}
+                  documentInfo={activity}
+                  updateActivity={this.updateActivity}
+                />
+
+                <DeleteActivity
+                  deleteAtivity={this.deleteActivity}
+                  documentId={activity.docId}
+                />
+              </div>
             </div>
           );
         });
@@ -92,7 +93,7 @@ class ActivityCard extends Component {
             <div key={index} className="site-card-border-less-wrapper">
               <Card
                 title={activity.title}
-                bordered={false} style={{ width: 600 }}>
+                bordered={false}>
                 <p>{activity.description}</p>
                 <p>
                   {
@@ -101,7 +102,7 @@ class ActivityCard extends Component {
                   + activity.location.suburb
                   }
                 </p>
-                <p>{moment(activity.time.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
+                <p>{moment(activity?.time?.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
               </Card>
             </div>
           );

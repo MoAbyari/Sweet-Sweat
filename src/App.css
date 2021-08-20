@@ -42,3 +42,18 @@
     transform: rotate(360deg);
   }
 }
+
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.ant-layout-content {
+  display: flex;
+  flex-direction: column;
+}
+.site-layout-content {
+  flex: 1;
+}

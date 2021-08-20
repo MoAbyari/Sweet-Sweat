@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import { Card } from 'antd';
+
 import { fsDb } from "../services/firebase";
 import { uniq, findWhere } from "underscore";
 import { getCurrentUser } from '../helpers/auth';
 import moment from 'moment';
-import { Card } from 'antd';
+import { isEmpty } from 'underscore';
+import { Card, Divider } from 'antd';
 import '../components/ActivityCard.css';
 
 class Chat extends React.Component {
@@ -43,7 +44,7 @@ class Chat extends React.Component {
         })
 
         const participantsId = uniq(allParticipantsId);
-        this.getAllUsersInfos(participantsId).then((userProfile) => {
+        this.getAllUsersInfos(participantsId || []).then((userProfile) => {
           this.setState({chats: chats, userProfiles: userProfile});
         });
 
@@ -52,9 +53,10 @@ class Chat extends React.Component {
 
   ///////////////////////////////// fetch user's info from database /////////////////
   getAllUsersInfos = async (allParticipants) => {
+    if (isEmpty(allParticipants)) return;
     const snapshots = await fsDb
     .collection("user_profiles")
-    .where("user_id", "in", allParticipants)
+    .where("user_id", "in", allParticipants || [])
     .get()
 
     let userInfos = [];
@@ -89,7 +91,6 @@ class Chat extends React.Component {
               }}
             >
               <Card
-                title="Messages"
                 bordered={false} style={{ width: 600 }}>
                 <div>
                   {this.renderParticipant(chat.participants[1])}
@@ -108,6 +109,8 @@ class Chat extends React.Component {
   render () {
     return (
       <div>
+        <h1>Messages</h1>
+        <Divider />
         {this.renderChats()}
       </div>
     )

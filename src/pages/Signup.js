@@ -4,7 +4,9 @@ import { signup } from '../helpers/auth';
 import { signin, signInWithGoogle } from "../helpers/auth";
 import { fsDb } from "../services/firebase"
 import { getCurrentUser } from '../helpers/auth';
+import { Input, Typography, Button } from 'antd';
 
+const { Text } = Typography;
 class Signup extends React.Component {
   constructor(props) {
     super(props);
@@ -47,20 +49,20 @@ class Signup extends React.Component {
   render () {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} style={{ maxWidth: '800px', margin: '0 auto' }}>
           <h1>
-            Sign Up to
+            Sign Up to {' '}
           <Link to="/">Sweet&Sweat</Link>
           </h1>
           <p>Fill in the form below to create an account.</p>
           <div>
-            <input placeholder="Email" name="email" type="email" onChange={this.handleChange} value={this.state.email}></input>
+            <Input placeholder="Email" name="email" type="email" onChange={this.handleChange} value={this.state.email} />
           </div>
           <div>
-            <input placeholder="Password" name="password" onChange={this.handleChange} value={this.state.password} type="password"></input>
+            <Input placeholder="Password" name="password" onChange={this.handleChange} value={this.state.password} type="password" style={{ margin: '20px 0' }} />
           </div>
           <div>
-            {this.state.error ? <p>{this.state.error}</p> : null}
+            {this.state.error ? <Text style={{ display: 'block' }} type="danger">{this.state.error}</Text> : null}
             <button type="submit">Sign up</button>
             <p>Or</p>
             <button onClick={this.googleSignIn} type="button">

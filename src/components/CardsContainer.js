@@ -11,7 +11,7 @@ renderActivities =  () => {
 
   render() {
     return(
-      <div className="thumbnail">
+      <div className="thumbnail" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {this.renderActivities()}
       </div>
     )

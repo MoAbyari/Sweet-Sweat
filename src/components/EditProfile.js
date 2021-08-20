@@ -1,13 +1,16 @@
 import { Upload, message, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import { Link } from "react-router-dom";
 import React, {Component} from 'react';
 import { fsDb, storage} from "../services/firebase"
 import { getCurrentUser } from '../helpers/auth';
 import moment from 'moment';
-import { Card, Avatar  } from 'antd';
+import { Card, Avatar, Input  } from 'antd';
 const { Meta } = Card;
 
 /////////////////////////// Ant Design//////////  file upload /////////////////
+const { TextArea } = Input;
+
 
 class EditProfile extends Component {
 
@@ -114,17 +117,22 @@ class EditProfile extends Component {
   showForm(){
     return(
       <div>
-        <form onSubmit={this._handleSubmit}>
-          Name <input type="text" onChange={this._renderName} value = {this.state.name} required/>
-          DOB <input type="date" onChange={this._renderDOB} />
-          Aboutme <textarea type="text" onChange={this._renderAboutMe} value={this.state.aboutme} required/>
+        <form onSubmit={this._handleSubmit} style={{ maxWidth: '800px' }}>
+          <label style={{ marginTop: '20px', display: 'block' }}>Name</label> <Input type="text" onChange={this._renderName} value = {this.state.name} required/>
+          <label style={{ marginTop: '20px', display: 'block' }}>DOB</label> <Input type="date" onChange={this._renderDOB} />
+          <label style={{ marginTop: '20px', display: 'block' }}>Aboutme</label> <TextArea style={{ marginBottom: '20px' }} type="text" onChange={this._renderAboutMe} value={this.state.aboutme} required/>
           <Upload {...this.uploadProps}>
           <Button icon={<UploadOutlined />}>Upload Profile Photo</Button>
           </Upload>
           <br/>
-          <input type="submit" value= "Save"/>
+          <div style={{ display: 'flex', marginTop: '20px' }}>
+            <Button key="submit" value="Save" style={{ marginRight: '10px', backgroundColor: 'darkblue', color: 'white' }}>Save</Button>
+            <Button  onClick={() => this.setState({ showForm: false })}>
+              Cancel
+            </Button>
+          </div>
         </form>
-        <input type="submit" value= "Cancel" onClick={() => this.setState({showForm: false}) }/>
+
       </div>
     )
   }
@@ -132,11 +140,12 @@ class EditProfile extends Component {
   render(){
     return(
       <div>
-        <button onClick={() => this.setState({showForm: true}) }>
+        <Button onClick={() => this.setState({showForm: true}) } type="primary" style={{ marginRight: '10px' }}>
           Edit Profile
-        </button>
+        </Button>
+        <Button><Link to="/PostActivity">New Activity</Link></Button>
           {this.state.showForm ? this.showForm() : null}
-        <div> <UserInfo info= {this.state} imgURL= {this.state.userImage} /></div>
+        <div style={{ marginTop: '20px' }}> <UserInfo info= {this.state} imgURL= {this.state.userImage} /></div>
       </div>
       )
     }
@@ -147,11 +156,9 @@ class UserInfo extends Component {
 
   render(){
     const info = this.props.info;
-    console.log("sag to roohet", info.DOB);
     return(
       <div>
         <Card
-          style={{ width: 630 }}
           cover={<img alt="userpic" src={this.props.imgURL || "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} />}
         >
           <Meta
