@@ -1,10 +1,10 @@
-# Getting Started with Create React App
+# SWEET & SWEAT [Sweet & Sweat](https://sweet-sweat.web.app/)
 
 This project was inspired by the current lockdown circumstances where people are isolated inside and might not have enough motivation to get out there and exercise!
 We created an activity-based dating app to light that fire in their hearts.  
 You can access it through this link [Sweet & Sweat](https://sweet-sweat.web.app/).
 
-## Available Scripts
+## # Getting Started with Create React App
 
 In the project directory, you can run:
 
