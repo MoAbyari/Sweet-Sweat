@@ -42,7 +42,7 @@ class ActivityCard extends Component {
 //////////////////////////////////////// renders the page and filter out the deleted page ////////////
     deleteActivity = (documentId) => {  // props from DeleteActivity component sits in place of documentId
       const newActivities = this.state.activities.filter((activity) => {
-        return activity.docId != documentId;
+        return activity.docId !== documentId;
       })
       this.setState({activities: newActivities});
     }

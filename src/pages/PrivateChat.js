@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-// import { fsDb } from "../services/firebase"
-// import { auth } from "../services/firebase";
-// import { getCurrentUser } from '../helpers/auth';
-// import moment from 'moment';
+import { fsDb } from "../services/firebase"
+import firebase from 'firebase';
 import { Button } from 'antd';
+import { getCurrentUser } from '../helpers/auth';
 
 class PrivateChat extends Component {
   constructor() {
@@ -16,6 +15,10 @@ class PrivateChat extends Component {
 
   componentDidMount() {
     this.renderMessages();
+    const chatId = this.props.location.state.chatId;
+    fsDb.collection("chats").doc(chatId).onSnapshot((doc) => {
+      this.setState({messages: doc.data().messages})
+    })
   }
 
   renderMessages = () => {
@@ -28,8 +31,20 @@ handleChange = (event) => {
   this.setState({ content: event.target.value });
 }
 
-handleSubmit = () => {
-  alert('To be implemented!')
+
+handleSubmit = async() => {
+  const chats = fsDb.collection("chats").doc(this.props.location.state.chatId);
+  const newMessage = { 
+    message: this.state.content,
+    timestamp: new Date(),
+    uid: getCurrentUser().uid,
+  }
+
+  await chats.update({
+    messages: firebase.firestore.FieldValue.arrayUnion(newMessage)
+  });
+    
+  this.setState({ content: '' });
 }
 
   render () {

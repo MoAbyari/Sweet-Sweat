@@ -27,6 +27,7 @@ class EditProfile extends Component {
     }
 
     this.uploadFile = this.uploadFile.bind(this);
+
 ///////////////////////////// Ant Upload file action ///////////////////////////
     this.uploadProps = {
       name: 'file',
@@ -46,6 +47,7 @@ class EditProfile extends Component {
       },
     };
   }
+
 // ///////////////////////////  Fetching existing User Info ///////////////////////
   componentDidMount(){
       this.fetchUserInfo();
@@ -67,6 +69,7 @@ class EditProfile extends Component {
       });
     });
   };
+
 //////////////////////////////////   Upload File  //////////////////////////////
   uploadFile = (file) => {
     const storageRef = storage.ref()
@@ -80,23 +83,20 @@ class EditProfile extends Component {
       })
     })
   }
+
 ///////////////////////  Set and update user info to Db ////////////////////////
   saveProfile(data){
-    console.log("1");
     fsDb.collection("user_profiles")
     .where("user_id", "==", getCurrentUser().uid)
     .get()
     .then((snapshots) => {
-      console.log("2");
       snapshots.forEach( (userProfile) => {
         fsDb.collection("user_profiles").doc(userProfile.id)
         .set({ name: data.name, DOB: data.DOB.toDate(), aboutme: data.aboutme, userImage:data.userImage},{merge:true}).then( () => {
-        console.log("3");
         this.fetchUserInfo();
         })
       });
     })
-    console.log("4");
   }
 ////////////////////////////  Form  eventHandler ///////////////////////////////
   _handleSubmit = (event) => {
@@ -104,6 +104,7 @@ class EditProfile extends Component {
     this.saveProfile(this.state);
     this.setState({showForm:false})
   }
+
   _renderName = (event) => {
     this.setState({name : event.target.value });
   }
@@ -113,6 +114,7 @@ class EditProfile extends Component {
   _renderAboutMe = (event) => {
     this.setState({aboutme : event.target.value });
   }
+
 /////////////////////////////////  Form Show  //////////////////////////////////
   showForm(){
     return(
@@ -136,6 +138,7 @@ class EditProfile extends Component {
       </div>
     )
   }
+
 /////////////////////////////////   Render Form  ////////////////////////////////
   render(){
     return(
@@ -151,6 +154,7 @@ class EditProfile extends Component {
     }
 
 }
+
 ///////////////////////////  Show existing details of user /////////////////////
 class UserInfo extends Component {
 

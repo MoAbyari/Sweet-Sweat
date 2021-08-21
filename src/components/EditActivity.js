@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 import { fsDb } from "../services/firebase"
 import moment from 'moment';
-import { Button, Input, Typography, Divider } from 'antd';
+import { Button, Input, Typography } from 'antd';
+
+
 const { TextArea } = Input;
 const { Text } = Typography;
+
+
 class EditActivity extends Component {
   constructor(props){
     super(props);

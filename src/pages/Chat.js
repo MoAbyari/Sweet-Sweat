@@ -9,7 +9,7 @@ import { isEmpty } from 'underscore';
 import { Card, Divider } from 'antd';
 import '../components/ActivityCard.css';
 
-class Chat extends React.Component {
+class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,15 +35,17 @@ class Chat extends React.Component {
       .then((snapshots) => {
         let chats = [];
         snapshots.forEach((snap) => {
-          chats.push(snap.data());
+          const docId = snap.id;
+          const chatObj = snap.data();
+          chats.push({...chatObj, docId});
         });
 
         let allParticipantsId = []
-        chats.map((chat) => {
+        chats.map((chat) => {  // this will give you all participants Id's with your id reapeted
           allParticipantsId = [...allParticipantsId, ...chat.participants]
         })
 
-        const participantsId = uniq(allParticipantsId);
+        const participantsId = uniq(allParticipantsId); // this line uses uniq from underscore to get rid of duplicated id's
         this.getAllUsersInfos(participantsId || []).then((userProfile) => {
           this.setState({chats: chats, userProfiles: userProfile});
         });
@@ -63,7 +65,7 @@ class Chat extends React.Component {
     snapshots.forEach((snapshot) => {
       userInfos.push(snapshot.data());
     });
-    console.log('>>>', userInfos);
+    // console.log('>>>', userInfos);
     return userInfos;
   }
 
@@ -87,6 +89,7 @@ class Chat extends React.Component {
                 pathname: "/PrivateChat",
                 state: {
                   chats: chat.messages,
+                  chatId: chat.docId,
                 }
               }}
             >
@@ -96,7 +99,7 @@ class Chat extends React.Component {
                   {this.renderParticipant(chat.participants[1])}
                 </div>
                 <p>
-                  {chat.messages ? moment(chat.messages[chat.messages.length - 1].timestamp?.toDate())
+                  {chat.messages ? moment(chat.messages[chat.messages.length - 1]?.timestamp?.toDate())
                   .format('MMMM Do YYYY, h:mm:ss a') : 'no date'}
                 </p>
               </Card>
@@ -111,7 +114,7 @@ class Chat extends React.Component {
       <div>
         <h1>Messages</h1>
         <Divider />
-        {this.renderChats()}
+        {(isEmpty(this.state.chats)) ? "You have no messages yet." : this.renderChats()}
       </div>
     )
   }
