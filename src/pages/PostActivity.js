@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { fsDb } from "../services/firebase"
 import { getCurrentUser } from '../helpers/auth';
 import moment from 'moment';
-import { Input, Button } from 'antd';
+import { Input, Button, message } from 'antd';
 
 const { TextArea } = Input;
 class PostActivity extends Component {
@@ -35,7 +35,12 @@ class PostActivity extends Component {
     .then(() => {console.log("Activity successfully created!");})
   }
 
-  _handleSubmit = (event) => {
+  _handleSubmit = () => {
+    const { title, type, time, location, description } = this.state;
+    if (!title || !type || !time || !location || !description) {
+      message.error("Please fill in required fields");
+      return
+    }
     this.saveActivity(this.state);
     this.props.history.push('/Profile'); // redirects to Profile page after creating the activity
   }

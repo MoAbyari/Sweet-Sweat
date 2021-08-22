@@ -17,7 +17,7 @@ class PrivateChat extends Component {
     this.renderMessages();
     const chatId = this.props.location.state.chatId;
     fsDb.collection("chats").doc(chatId).onSnapshot((doc) => {
-      this.setState({messages: doc.data().messages})
+      this.setState({messages: doc.data()?.messages})
     })
   }
 

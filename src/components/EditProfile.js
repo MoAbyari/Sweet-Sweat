@@ -92,15 +92,20 @@ class EditProfile extends Component {
     .then((snapshots) => {
       snapshots.forEach( (userProfile) => {
         fsDb.collection("user_profiles").doc(userProfile.id)
-        .set({ name: data.name, DOB: data.DOB.toDate(), aboutme: data.aboutme, userImage:data.userImage},{merge:true}).then( () => {
+        .set({ 
+          name: data.name, 
+          DOB: data.DOB.toDate(), 
+          aboutme: data.aboutme, 
+          userImage:data.userImage},
+          {merge:true})
+          .then( () => {
         this.fetchUserInfo();
         })
       });
     })
   }
 ////////////////////////////  Form  eventHandler ///////////////////////////////
-  _handleSubmit = (event) => {
-    event.preventDefault();
+  _handleSubmit = () => {
     this.saveProfile(this.state);
     this.setState({showForm:false})
   }
@@ -119,7 +124,7 @@ class EditProfile extends Component {
   showForm(){
     return(
       <div>
-        <form onSubmit={this._handleSubmit} style={{ maxWidth: '800px' }}>
+        <form style={{ maxWidth: '800px' }}>
           <label style={{ marginTop: '20px', display: 'block' }}>Name</label> <Input type="text" onChange={this._renderName} value = {this.state.name} required/>
           <label style={{ marginTop: '20px', display: 'block' }}>DOB</label> <Input type="date" onChange={this._renderDOB} />
           <label style={{ marginTop: '20px', display: 'block' }}>Aboutme</label> <TextArea style={{ marginBottom: '20px' }} type="text" onChange={this._renderAboutMe} value={this.state.aboutme} required/>
@@ -128,7 +133,7 @@ class EditProfile extends Component {
           </Upload>
           <br/>
           <div style={{ display: 'flex', marginTop: '20px' }}>
-            <Button key="submit" value="Save" style={{ marginRight: '10px', backgroundColor: 'darkblue', color: 'white' }}>Save</Button>
+            <Button onClick={this._handleSubmit} key="submit" style={{ marginRight: '10px', backgroundColor: 'darkblue', color: 'white' }}>Save</Button>
             <Button  onClick={() => this.setState({ showForm: false })}>
               Cancel
             </Button>

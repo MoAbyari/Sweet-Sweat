@@ -46,7 +46,7 @@ updateActivity = (data) => {
   .then(() => {console.log("Activity successfully created!");})
 }
 
-_handleSubmit = (event) => {
+_handleSubmit = () => {
   this.setState({showForm:false});
   this.updateActivity(this.state).then(() => {
     this.props.updateActivity();

@@ -40,7 +40,7 @@ class Chat extends Component {
           chats.push({...chatObj, docId});
         });
 
-        let allParticipantsId = []
+        let allParticipantsId = [];
         chats.map((chat) => {  // this will give you all participants Id's with your id reapeted
           allParticipantsId = [...allParticipantsId, ...chat.participants]
         })

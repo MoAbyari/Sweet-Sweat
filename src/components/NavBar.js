@@ -6,12 +6,6 @@ import { signOut } from '../helpers/auth';
 import { Menu } from 'antd';
 
 class NavBar extends Component {
-  constructor() {
-  super();
-    this.state = {
-      user: auth().currentUser
-    }
-  }
 
   handleLogOut = () => {
     signOut().then(() => {
@@ -20,31 +14,32 @@ class NavBar extends Component {
   }
 
 render(){
+
   if (this.props.isLoggedIn){
     return (
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-        <Menu.Item key="1">
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['home']} key={this.props.isLoggedIn} >
+        <Menu.Item key="home">
            <Link to="/">Home</Link>
         </Menu.Item>
-        <Menu.Item key="2">
-          <Link to="/Profile"> Profile</Link>
+        <Menu.Item key="profile">
+          <Link to="/Profile">Profile</Link>
         </Menu.Item>
-        <Menu.Item key="3">
-          <Link to="/Chat"> Messages</Link>
+        <Menu.Item key="messages">
+          <Link to="/Chat">Messages</Link>
         </Menu.Item>
-        <Menu.Item key="4">
+        <Menu.Item key="logout">
           <a onClick={this.handleLogOut}> Logout </a>
         </Menu.Item>
-        <Menu.Item key="5">
-          <strong>{this.state.user?.email}</strong>
+        <Menu.Item key="logeedIn">
+          <strong>{ auth().currentUser?.email}</strong>
         </Menu.Item>
       </Menu>
     );
   } else{
     return (
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['3']}>
         <Menu.Item key="2">
-          <Link to="/signup"> Signup</Link>
+          <Link to="/signup"> Signup </Link>
         </Menu.Item>
         <Menu.Item key="3">
           <Link to="/login"> Login </Link>
